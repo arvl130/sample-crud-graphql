@@ -2,8 +2,8 @@ import { ApolloServer } from "@apollo/server"
 import { startStandaloneServer } from "@apollo/server/standalone"
 import fs from "fs"
 import path from "path"
-import { db } from "./db/client"
-import * as schema from "./db/schema"
+import { db } from "./db/client.js"
+import * as schema from "./db/schema.js"
 import { eq } from "drizzle-orm"
 
 const __dirname = path.resolve(path.dirname(""))
