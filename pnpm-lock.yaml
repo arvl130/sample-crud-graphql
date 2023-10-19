@@ -11,12 +11,18 @@ dependencies:
   '@t3-oss/env-core':
     specifier: ^0.6.1
     version: 0.6.1(typescript@5.2.2)(zod@3.21.4)
+  cors:
+    specifier: ^2.8.5
+    version: 2.8.5
   dotenv:
     specifier: ^16.3.1
     version: 16.3.1
   drizzle-orm:
     specifier: ^0.28.6
     version: 0.28.6(@types/pg@8.10.7)(pg@8.11.3)
+  express:
+    specifier: ^4.18.2
+    version: 4.18.2
   graphql:
     specifier: ^16.8.1
     version: 16.8.1

@@ -1,10 +1,17 @@
 import { ApolloServer } from "@apollo/server"
-import { startStandaloneServer } from "@apollo/server/standalone"
+import { expressMiddleware } from "@apollo/server/express4"
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer"
 import fs from "fs"
 import path from "path"
 import { db } from "./db/client.js"
 import * as schema from "./db/schema.js"
 import { eq } from "drizzle-orm"
+import cors from "cors"
+import http from "http"
+import express from "express"
+
+const app = express()
+const httpServer = http.createServer(app)
 
 const __dirname = path.resolve(path.dirname(""))
 const typeDefs = fs
@@ -72,12 +79,20 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 })
+
+await server.start()
+
+app.use(
+  "/",
+  cors<cors.CorsRequest>(),
+  express.json(),
+  expressMiddleware(server, {
+    context: async ({ req }) => ({ token: req.headers.token }),
+  })
+)
 
 const port = process.env.PORT ? parseInt(process.env.PORT) : 3000
-
-const { url } = await startStandaloneServer(server, {
-  listen: { port },
-})
-
-console.log(`Server ready at: ${url}`)
+await new Promise<void>((resolve) => httpServer.listen({ port }, resolve))
+console.log(`Server ready at http://localhost:${port}`)
