@@ -25,6 +25,7 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^20.8.7",
+    "@types/pg": "^8.10.7",
     "drizzle-kit": "^0.19.13",
     "typescript": "^5.2.2"
   }
