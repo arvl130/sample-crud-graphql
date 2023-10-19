@@ -1,8 +1,6 @@
 import { ApolloServer } from "@apollo/server"
 import { expressMiddleware } from "@apollo/server/express4"
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer"
-import fs from "fs"
-import path from "path"
 import { db } from "../src/db/client.js"
 import * as schema from "../src/db/schema.js"
 import { eq } from "drizzle-orm"
@@ -13,10 +11,28 @@ import express from "express"
 const app = express()
 const httpServer = http.createServer(app)
 
-const __dirname = path.resolve(path.dirname(""))
-const typeDefs = fs
-  .readFileSync(path.resolve(__dirname, "src/schema.graphql").toString())
-  .toString("utf-8")
+const typeDefs = `#graphql
+type Flower {
+  id: ID!
+  name: String!
+  color: String!
+}
+
+type Query {
+  flower(id: ID!): Flower
+  flowers: [Flower!]!
+}
+
+type Mutation {
+  addFlower(newFlower: NewFlower!): Flower!
+  deleteFlower(id: ID!): Flower!
+  updateFlower(id: ID!, newFlower: NewFlower!): Flower!
+}
+
+input NewFlower {
+  name: String!
+  color: String!
+}`
 
 const resolvers = {
   Query: {
