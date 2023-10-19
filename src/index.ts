@@ -93,6 +93,4 @@ app.use(
   })
 )
 
-const port = process.env.PORT ? parseInt(process.env.PORT) : 3000
-await new Promise<void>((resolve) => httpServer.listen({ port }, resolve))
-console.log(`Server ready at http://localhost:${port}`)
+export default httpServer
