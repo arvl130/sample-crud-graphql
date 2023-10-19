@@ -1,0 +1,21 @@
+type Flower {
+  id: ID!
+  name: String!
+  color: String!
+}
+
+type Query {
+  flower(id: ID!): Flower
+  flowers: [Flower!]!
+}
+
+type Mutation {
+  addFlower(newFlower: NewFlower!): Flower!
+  deleteFlower(id: ID!): Flower!
+  updateFlower(id: ID!, newFlower: NewFlower!): Flower!
+}
+
+input NewFlower {
+  name: String!
+  color: String!
+}
